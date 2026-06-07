@@ -1,146 +1,85 @@
 # 🐱 Cat vs Dog Image Classifier 🐶
 
-> PyTorch cat vs dog image classifier with transfer learning (timm), Grad-CAM explainability, and full visual reports.
+> PyTorch cat/dog classifier — transfer learning (timm), Grad-CAM, Streamlit demo, ONNX export.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-blue.svg" alt="Python">
   <img src="https://img.shields.io/badge/PyTorch-2.x-EE4C2C.svg?logo=pytorch&logoColor=white" alt="PyTorch">
   <img src="https://img.shields.io/badge/timm-transfer%20learning-9cf.svg" alt="timm">
   <img src="https://img.shields.io/badge/Grad--CAM-explainability-success.svg" alt="Grad-CAM">
-  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
+  <img src="https://img.shields.io/badge/ONNX-export-orange.svg" alt="ONNX">
 </p>
 
-A clean, modular PyTorch project that classifies images of **cats** and **dogs**. It fine-tunes a pretrained [`timm`](https://github.com/huggingface/pytorch-image-models) model and produces a full set of visual reports — dataset samples, class-balance analysis, learning curves, and inference results with **Grad-CAM** heatmaps.
+Fine-tunes a pretrained `rexnet_150` model to classify **cats** and **dogs**, with full visual reports, an interactive demo, and ONNX export.
 
----
+## Features
 
-## ✨ Features
+- **Custom dataset** loader with automatic labels from folder names.
+- **Transfer learning** on `rexnet_150` (any `timm` model works).
+- **Training loop** with accuracy/F1, LR scheduler, early stopping, best-model saving.
+- **Reports**: dataset samples, class-balance charts, learning curves, Grad-CAM, confusion matrix.
+- **Streamlit demo** + **ONNX export** for deployment.
 
-- **Custom `Dataset`** — loads images straight from folders (`train/cat`, `train/dog`, ...) with automatic label assignment.
-- **Transfer learning** — fine-tunes `rexnet_150` (or any `timm` model) on the cat/dog data.
-- **Full training loop** — accuracy & F1 metrics, learning-rate scheduler, early stopping, best-model checkpointing.
-- **Rich visualizations** — dataset samples, class-imbalance bar/pie charts, loss/accuracy/F1 curves.
-- **Explainable inference** — Grad-CAM heatmaps + confusion matrix showing where the model "looks".
-- **Reproducible** — pinned `requirements.txt`, portable paths that work on any machine (Colab, Windows, Linux, Mac).
-
----
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 dog_cat/
-├── data/
-│   └── data_downloading.py     # Downloads & extracts the dataset from Google Drive
-├── custom_dataset.py           # CustomDataset + get_dls() (train/val/test DataLoaders)
-├── transform.py                # get_tfs() — image transforms (resize, normalize)
-├── vis.py                      # Visualization — dataset samples & class analysis
-├── train.py                    # TrainValidation — training/validation loop
-├── plot.py                     # PlotLearningCurves — loss/accuracy/F1 curves
-├── infer.py                    # ModelInferenceVisualizer — Grad-CAM + confusion matrix
-├── main.py                     # Entry point — runs the whole pipeline
-├── requirements.txt            # Pinned dependencies
-└── results/                    # All generated reports (created on run)
-    ├── samples/                #   dataset sample grids
-    ├── analysis/               #   class-balance bar & pie charts
-    ├── learning_curves/        #   loss / accuracy / f1 curves
-    └── inference/              #   Grad-CAM predictions + confusion matrix
+├── data/data_downloading.py   # download & extract dataset
+├── custom_dataset.py          # Dataset + get_dls() (train/val/test loaders)
+├── transform.py               # image transforms
+├── train.py                   # training / validation loop
+├── plot.py                    # learning curves
+├── vis.py                     # dataset samples & class analysis
+├── infer.py                   # Grad-CAM + confusion matrix
+├── main.py                    # runs the full pipeline
+├── app.py                     # Streamlit demo
+├── onnx_converter.py          # export model to ONNX
+├── requirements.txt
+└── results/                   # generated reports
 ```
 
----
-
-## 🚀 Getting Started
-
-### 1. Clone the repository
+## Setup
 
 ```bash
-git clone <your-repo-url>
-cd dog_cat
-```
-
-### 2. Install dependencies
-
-```bash
+git clone https://github.com/otabekziyotov/dog-and-cat-calssification.git
+cd dog-and-cat-calssification
 pip install -r requirements.txt
+python data/data_downloading.py   # download dataset
 ```
 
-> **GPU note:** `requirements.txt` installs the CPU build of PyTorch. If you have an NVIDIA GPU, install the CUDA build from the [official PyTorch index](https://pytorch.org/get-started/locally/) for your CUDA version instead.
+> CPU build of PyTorch by default. For GPU, install the CUDA build from the [PyTorch site](https://pytorch.org/get-started/locally/).
 
-### 3. Download the dataset
-
-```bash
-python data/data_downloading.py
-```
-
-This downloads and extracts the dataset into `datasets/cat_dog/dataset/` (with `train/` and `test/` splits).
-
-### 4. Run the full pipeline
+## Train
 
 ```bash
 python main.py
 ```
 
-This trains the model and writes **all** reports into the `results/` folder.
+Trains the model and writes all reports to `results/`.
+Set `DEV_MODE = True` in [`main.py`](main.py) for a quick 1-batch test.
 
-> **Tip:** For a quick smoke test without full training, set `DEV_MODE = True` in [`main.py`](main.py) — it runs just 1 batch / 1 epoch.
-
----
-
-## 🎬 Live Demo (Streamlit)
-
-An interactive web demo where you can upload an image — or pick a sample from the test set — and see the prediction, confidence, and a **Grad-CAM** heatmap.
+## Demo (Streamlit)
 
 ```bash
 streamlit run app.py
 ```
 
-Then open **http://localhost:8501** in your browser.
+Open **http://localhost:8501**. Upload an image or pick a test sample to see the prediction, confidence, and Grad-CAM heatmap. (Train the model first.)
 
-> **Note:** Streamlit apps must be launched with `streamlit run` (not `python app.py`).
-> Requires a trained model at `saved_models/cat_dog_best_model.pth` — run `python main.py` first.
+## ONNX Export
 
----
+Export the trained model to ONNX and verify it matches PyTorch:
 
-## ⚙️ Configuration
+```bash
+python onnx_converter.py
+```
 
-All settings live at the top of [`main.py`](main.py):
+Saves `saved_models/cat_dog_model.onnx`, validates the graph, and compares PyTorch vs ONNX Runtime outputs (difference should be ~1e-5). Use the `.onnx` file for fast, framework-independent deployment.
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| `IM_SIZE` | `224` | Input image size |
-| `BS` | `16` | Batch size |
-| `MODEL_NAME` | `"rexnet_150"` | Any `timm` model name |
-| `EPOCHS` | `10` | Max training epochs |
-| `PATIENCE` | `3` | Early-stopping patience |
-| `DEV_MODE` | `False` | Quick 1-batch / 1-epoch run |
+## Config
 
----
+Edit the top of [`main.py`](main.py): `IM_SIZE`, `BS`, `MODEL_NAME`, `EPOCHS`, `PATIENCE`, `DEV_MODE`.
 
-## 📊 Results
+## Tech Stack
 
-After running `main.py`, the `results/` folder contains:
-
-| Report | Location | What it shows |
-|--------|----------|---------------|
-| **Dataset samples** | `results/samples/` | Random images with their ground-truth labels |
-| **Class analysis** | `results/analysis/` | Bar & pie charts of class balance per split |
-| **Learning curves** | `results/learning_curves/` | Loss, accuracy and F1 over epochs |
-| **Inference + Grad-CAM** | `results/inference/inference_results.png` | Predictions vs ground truth with Grad-CAM heatmaps |
-| **Confusion matrix** | `results/inference/confusion_matrix.png` | Per-class prediction performance |
-
-<!-- After your first run you can embed the generated images here, e.g.:
-![Learning curves](results/learning_curves/accuracy_curve.png)
-![Inference](results/inference/inference_results.png)
-![Confusion matrix](results/inference/confusion_matrix.png)
--->
-
----
-
-## 🛠️ Tech Stack
-
-- **PyTorch** & **torchvision** — deep learning
-- **timm** — pretrained models (transfer learning)
-- **torchmetrics** — accuracy & F1 metrics
-- **grad-cam** — model explainability
-- **matplotlib**, **seaborn** — visualization
-- **scikit-learn** — confusion matrix
-- **gdown** — dataset download
+PyTorch · torchvision · timm · torchmetrics · grad-cam · onnx / onnxruntime · streamlit · matplotlib · seaborn · scikit-learn
