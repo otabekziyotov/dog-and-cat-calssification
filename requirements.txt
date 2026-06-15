@@ -7,7 +7,7 @@ torchmetrics
 # ===== Dataset download & image handling =====
 gdown
 Pillow
-opencv-python
+opencv-python-headless
 
 # ===== Numerics, metrics & progress =====
 numpy
@@ -26,3 +26,6 @@ streamlit
 onnx
 onnxruntime
 onnxscript
+
+
+
