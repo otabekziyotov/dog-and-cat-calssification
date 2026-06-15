@@ -15,16 +15,14 @@ venv/
 .venv/
 env/
 
-# Saved models / weights
-*.pt
-*.pth
-*.safetensors
-*.onnx
+# # Saved models / weights
+# *.pt
+# *.pth
+# *.safetensors
+# *.onnx
 
 # OS / editor
 .DS_Store
 .vscode/
 .idea/
 
-# Tooling
-.claude/
