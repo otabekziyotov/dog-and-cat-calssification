@@ -20,7 +20,7 @@ IM_SIZE      = 224
 MEAN         = [0.485, 0.456, 0.406]
 STD          = [0.229, 0.224, 0.225]
 DEVICE       = "cuda" if torch.cuda.is_available() else "cpu"
-TEST_DIR     = PROJECT_ROOT / "datasets" / "cat_dog" / "dataset" / "test"
+TEST_DIR     = PROJECT_ROOT / "data" / "data_samples" 
 N_SAMPLES    = 4                          # how many sample thumbnails per class
 # ------------------------------------------------------
 
