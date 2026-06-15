@@ -10,7 +10,11 @@
   <img src="https://img.shields.io/badge/ONNX-export-orange.svg" alt="ONNX">
 </p>
 
-Fine-tunes a pretrained `rexnet_150` model to classify **cats** and **dogs**, with full visual reports, an interactive demo, and ONNX export.
+A deep learning project that classifies images of cats and dogs using 
+transfer learning with `rexnet_150`. Includes Grad-CAM visualizations 
+to show what the model "sees", an interactive Streamlit demo, 
+and ONNX export for production deployment.
+Try the live demo: [link](https://dog-and-cat-calssification-oz.streamlit.app/)
 
 ## Features
 
