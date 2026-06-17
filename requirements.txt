@@ -20,7 +20,7 @@ seaborn==0.13.2
 grad-cam==1.5.5
 
 # ===== Demo app =====
-streamlit==1.42.0
+streamlit>=1.50
 
 # ===== ONNX export =====
 onnx==1.21.0
