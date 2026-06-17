@@ -6,7 +6,7 @@ torchmetrics==1.9.0
 
 # ===== Dataset download & image handling =====
 gdown==6.1.0
-Pillow==12.2.0
+Pillow<12
 opencv-python-headless==4.13.0.92
 
 # ===== Numerics, metrics & progress =====
