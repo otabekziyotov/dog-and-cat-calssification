@@ -1,31 +1,28 @@
 # ===== Deep learning =====
-torch
-torchvision
-timm
-torchmetrics
+torch==2.12.0
+torchvision==0.27.0
+timm==1.0.27
+torchmetrics==1.9.0
 
 # ===== Dataset download & image handling =====
-gdown
-Pillow
-opencv-python-headless
+gdown==6.1.0
+Pillow==12.2.0
+opencv-python-headless==4.13.0.92
 
 # ===== Numerics, metrics & progress =====
-numpy
-scikit-learn
-tqdm
+numpy==2.4.6
+scikit-learn==1.8.0
+tqdm==4.67.3
 
 # ===== Visualization =====
-matplotlib
-seaborn
-grad-cam
+matplotlib==3.10.9
+seaborn==0.13.2
+grad-cam==1.5.5
 
 # ===== Demo app =====
-streamlit
+streamlit==1.42.0
 
 # ===== ONNX export =====
-onnx
-onnxruntime
-onnxscript
-
-
-
+onnx==1.21.0
+onnxruntime==1.26.0
+onnxscript==0.7.0
